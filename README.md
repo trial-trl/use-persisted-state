@@ -3,6 +3,8 @@
 A custom [React Hook](https://reactjs.org/docs/hooks-overview.html) that provides a multi-instance,
 multi-tab/browser shared and persistent state.
 
+Note: This package is forked from [donavon/use-persisted-state](https://github.com/donavon/use-persisted-state) and updated to work with React 18.2.
+
 [![npm version](https://badge.fury.io/js/use-persisted-state.svg)](https://badge.fury.io/js/use-persisted-state) [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
 
 
