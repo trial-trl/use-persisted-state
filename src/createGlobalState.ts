@@ -1,6 +1,17 @@
-const globalState = {};
+const globalState: {
+  [key: string]: { callbacks: ((value: any) => void)[]; value: any };
+} = {};
 
-const createGlobalState = (key, thisCallback, initialValue) => {
+export type GlobalState<S> = {
+  deregister(): void;
+  emit(value: S | ((v: S) => S)): void;
+};
+
+function createGlobalState<S>(
+  key: string,
+  thisCallback: (value: S) => void,
+  initialValue: S | ((value: S) => S)
+): GlobalState<S> {
   if (!globalState[key]) {
     globalState[key] = { callbacks: [], value: initialValue };
   }
@@ -13,7 +24,7 @@ const createGlobalState = (key, thisCallback, initialValue) => {
         arr.splice(index, 1);
       }
     },
-    emit(value) {
+    emit(value: S) {
       if (globalState[key].value !== value) {
         globalState[key].value = value;
         globalState[key].callbacks.forEach((callback) => {
@@ -24,6 +35,6 @@ const createGlobalState = (key, thisCallback, initialValue) => {
       }
     },
   };
-};
+}
 
 export default createGlobalState;

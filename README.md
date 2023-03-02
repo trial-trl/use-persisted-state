@@ -1,4 +1,6 @@
-# use-persisted-state
+# use-persisted-state-any
+
+Modified version of [use-persisted-state](https://github.com/donavon/use-persisted-state) to support any type besides JSON itself.
 
 A custom [React Hook](https://reactjs.org/docs/hooks-overview.html) that provides a multi-instance,
 multi-tab/browser shared and persistent state.
@@ -6,7 +8,6 @@ multi-tab/browser shared and persistent state.
 Note: This package is forked from [donavon/use-persisted-state](https://github.com/donavon/use-persisted-state) and updated to work with React 18.2.
 
 [![npm version](https://badge.fury.io/js/use-persisted-state.svg)](https://badge.fury.io/js/use-persisted-state) [![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors)
-
 
 `use-persisted-state` is not a hook itself, but is a factory that accepts a storage `key`
 and an optional storage provider (default = `localStorage`) and returns a hook
@@ -38,13 +39,13 @@ Here we have an example of a typical up/down counter.
 ```js
 import { useState } from 'react';
 
-const useCounter = initialCount => {
+const useCounter = (initialCount) => {
   const [count, setCount] = useState(initialCount);
 
   return {
     count,
-    increment: () => setCount(currentCount => currentCount + 1),
-    decrement: () => setCount(currentCount => currentCount - 1),
+    increment: () => setCount((currentCount) => currentCount + 1),
+    decrement: () => setCount((currentCount) => currentCount - 1),
   };
 };
 
@@ -59,15 +60,16 @@ The complete code is as follows.
 
 ```js
 import createPersistedState from 'use-persisted-state';
+
 const useCounterState = createPersistedState('count');
 
-const useCounter = initialCount => {
+const useCounter = (initialCount) => {
   const [count, setCount] = useCounterState(initialCount);
 
   return {
     count,
-    increment: () => setCount(currentCount => currentCount + 1),
-    decrement: () => setCount(currentCount => currentCount - 1),
+    increment: () => setCount((currentCount) => currentCount + 1),
+    decrement: () => setCount((currentCount) => currentCount - 1),
   };
 };
 
@@ -108,6 +110,7 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/all-contri
 
 <!-- markdownlint-enable -->
 <!-- prettier-ignore-end -->
+
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!

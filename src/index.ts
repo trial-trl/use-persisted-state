@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Dispatch, SetStateAction, useState } from 'react';
 
 import usePersistedState from './usePersistedState';
 import createStorage from './createStorage';
@@ -21,12 +21,18 @@ const getProvider = () => {
   return null;
 };
 
-const createPersistedState = (key, provider = getProvider()) => {
+function createPersistedState<S>(
+  key: string,
+  provider: Pick<Storage, 'getItem' | 'setItem'> | null = getProvider()
+):
+  | ((initialState: S | (() => S)) => [S, Dispatch<SetStateAction<S>>])
+  | (() => [S | undefined, Dispatch<SetStateAction<S | undefined>>]) {
   if (provider) {
-    const storage = createStorage(provider);
-    return (initialState) => usePersistedState(initialState, key, storage);
+    const storage = createStorage<S>(provider);
+    return (initialState: S | (() => S)) =>
+      usePersistedState(initialState, key, storage);
   }
   return useState;
-};
+}
 
 export default createPersistedState;
